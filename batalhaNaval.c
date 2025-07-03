@@ -1,40 +1,123 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 // Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
 
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+    // Nível Novato - Posicionamento dos Navios
+    int tabuleiro5[5][5] = {0};
+
+    // Posiciona navio vertical (tamanho 3) iniciando em (0,1)
+    for (int i = 0; i < 3; i++) {
+        tabuleiro5[0 + i][1] = 1;
+    }
+
+    // Posiciona navio horizontal (tamanho 4) iniciando em (3,0)
+    for (int j = 0; j < 4; j++) {
+        tabuleiro5[3][0 + j] = 1;
+    }
+
+    printf("Nível Novato – Coordenadas dos navios:\n");
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (tabuleiro5[i][j] == 1) {
+                printf("(%d, %d)\n", i, j);
+            }
+        }
+    }
+
+
+    // Nível Aventureiro - Posicionamento Diagonal
+    int tabuleiro10[10][10] = {0};
+
+    // Navio horizontal (tamanho 4) iniciando em (0,0)
+    for (int j = 0; j < 4; j++) {
+        tabuleiro10[0][0 + j] = 3;
+    }
+
+    // Navio vertical (tamanho 5) iniciando em (2,9)
+    for (int i = 0; i < 5; i++) {
+        tabuleiro10[2 + i][9] = 3;
+    }
+
+    // Navio diagonal "\" (tamanho 4) iniciando em (3,3)
+    for (int k = 0; k < 4; k++) {
+        tabuleiro10[3 + k][3 + k] = 3;
+    }
+
+    // Navio diagonal "/" (tamanho 3) iniciando em (8,2), subindo e indo para a direita
+    for (int k = 0; k < 3; k++) {
+        tabuleiro10[8 - k][2 + k] = 3;
+    }
+
+    printf("\nNível Aventureiro – Tabuleiro 10x10 (0 = vazio, 3 = navio):\n");
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            printf("%d ", tabuleiro10[i][j]);
+        }
+        printf("\n");
+    }
+
 
     // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+    int rows = 3, cols = 5;
+    int centroLinha = rows / 2, centroColuna = cols / 2;
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    int cone[3][5]     = {0};
+    int octaedro[3][5] = {0};
+    int cruz[3][5]     = {0};
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    // Preenche padrão em cone
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (j >= centroColuna - i && j <= centroColuna + i) {
+                cone[i][j] = 1;
+            }
+        }
+    }
+
+    // Preenche padrão em octaedro
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (abs(i - centroLinha) + abs(j - centroColuna) <= centroLinha) {
+                octaedro[i][j] = 1;
+            }
+        }
+    }
+
+    // Preenche padrão em cruz
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (i == centroLinha || j == centroColuna) {
+                cruz[i][j] = 1;
+            }
+        }
+    }
+
+    printf("\nNível Mestre – Padrão Cone:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d ", cone[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("\nNível Mestre – Padrão Octaedro:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d ", octaedro[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("\nNível Mestre – Padrão Cruz:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d ", cruz[i][j]);
+        }
+        printf("\n");
+    }
 
     return 0;
 }
